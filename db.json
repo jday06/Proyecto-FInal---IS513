@@ -1,0 +1,203 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Ana Martínez",
+      "email": "ana@example.com",
+      "password": "123456",
+      "role": "user"
+    },
+    {
+      "id": 2,
+      "name": "Carlos Reyes",
+      "email": "carlos@example.com",
+      "password": "qwerty",
+      "role": "user"
+    },
+    {
+      "id": 3,
+      "name": "Luis Gómez",
+      "email": "luis@example.com",
+      "password": "password123",
+      "role": "admin"
+    },
+    {
+      "id": 4,
+      "name": "Valeria López",
+      "email": "valeria@example.com",
+      "password": "valeria22",
+      "role": "user"
+    },
+    {
+      "id": 5,
+      "name": "Miguel Torres",
+      "email": "miguel@example.com",
+      "password": "miguel77",
+      "role": "user"
+    }
+  ],
+  "courts": [
+    {
+      "id": 1,
+      "name": "Cancha 1",
+      "type": "Fútbol",
+      "imageUrl": "https://example.com/images/cancha1.jpg",
+      "available": true,
+      "location": "Colonia Centro"
+    },
+    {
+      "id": 2,
+      "name": "Cancha 2",
+      "type": "Básquetbol",
+      "imageUrl": "https://example.com/images/cancha2.jpg",
+      "available": true,
+      "location": "Barrio El Carmen"
+    },
+    {
+      "id": 3,
+      "name": "Cancha 3",
+      "type": "Fútbol",
+      "imageUrl": "https://example.com/images/cancha3.jpg",
+      "available": false,
+      "location": "Residencial Palmeras"
+    },
+    {
+      "id": 4,
+      "name": "Cancha 4",
+      "type": "Voleibol",
+      "imageUrl": "https://example.com/images/cancha4.jpg",
+      "available": true,
+      "location": "Zona Deportiva Norte"
+    },
+    {
+      "id": 5,
+      "name": "Cancha 5",
+      "type": "Básquetbol",
+      "imageUrl": "https://example.com/images/cancha5.jpg",
+      "available": true,
+      "location": "Universidad"
+    },
+    {
+      "id": 6,
+      "name": "Cancha 6",
+      "type": "Fútbol",
+      "imageUrl": "https://example.com/images/cancha6.jpg",
+      "available": true,
+      "location": "Colonia Los Alpes"
+    },
+    {
+      "id": 7,
+      "name": "Cancha 7",
+      "type": "Fútbol",
+      "imageUrl": "https://example.com/images/cancha7.jpg",
+      "available": false,
+      "location": "Polideportivo Municipal"
+    },
+    {
+      "id": 8,
+      "name": "Cancha 8",
+      "type": "Voleibol",
+      "imageUrl": "https://example.com/images/cancha8.jpg",
+      "available": true,
+      "location": "Parque Central"
+    }
+  ],
+  "reservations": [
+    {
+      "id": 1,
+      "userId": 1,
+      "courtId": 1,
+      "date": "2025-08-03",
+      "time": "16:00 - 17:00",
+      "status": "confirmed"
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "courtId": 2,
+      "date": "2025-08-04",
+      "time": "17:00 - 18:00",
+      "status": "pending"
+    },
+    {
+      "id": 3,
+      "userId": 3,
+      "courtId": 3,
+      "date": "2025-08-05",
+      "time": "18:00 - 19:00",
+      "status": "cancelled"
+    },
+    {
+      "id": 4,
+      "userId": 4,
+      "courtId": 4,
+      "date": "2025-08-06",
+      "time": "15:00 - 16:00",
+      "status": "confirmed"
+    },
+    {
+      "id": 5,
+      "userId": 5,
+      "courtId": 5,
+      "date": "2025-08-06",
+      "time": "14:00 - 15:00",
+      "status": "confirmed"
+    },
+    {
+      "id": 6,
+      "userId": 1,
+      "courtId": 6,
+      "date": "2025-08-07",
+      "time": "13:00 - 14:00",
+      "status": "pending"
+    },
+    {
+      "id": 7,
+      "userId": 2,
+      "courtId": 7,
+      "date": "2025-08-08",
+      "time": "12:00 - 13:00",
+      "status": "confirmed"
+    },
+    {
+      "id": 8,
+      "userId": 3,
+      "courtId": 8,
+      "date": "2025-08-09",
+      "time": "11:00 - 12:00",
+      "status": "cancelled"
+    },
+    {
+      "id": 9,
+      "userId": 4,
+      "courtId": 1,
+      "date": "2025-08-10",
+      "time": "10:00 - 11:00",
+      "status": "confirmed"
+    },
+    {
+      "id": 10,
+      "userId": 5,
+      "courtId": 2,
+      "date": "2025-08-11",
+      "time": "09:00 - 10:00",
+      "status": "pending"
+    },
+    {
+      "id": 11,
+      "userId": 1,
+      "courtId": 5,
+      "date": "2025-08-12",
+      "time": "16:00 - 17:00",
+      "status": "confirmed"
+    },
+    {
+      "id": 12,
+      "userId": 2,
+      "courtId": 6,
+      "date": "2025-08-13",
+      "time": "18:00 - 19:00",
+      "status": "pending"
+    }
+  ]
+}
