@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'routes/app_routes.dart';
 import 'controllers/auth_controller.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'controllers/animation_controller.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,7 +17,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   final AuthController authController = Get.put(AuthController());
 
-  MyApp({super.key}); // Inicializa controlador
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,24 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: AppRoutes.login,
       getPages: AppRoutes.routes,
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData(
+        textTheme: GoogleFonts.latoTextTheme(
+          Theme.of(context).textTheme,
+        ),
+        primarySwatch: Colors.blue,
+      ),
+      builder: (context, child) {
+        return Stack(
+          children: [
+            const AnimatedBackground(), // Fondo animado
+            if (child != null)
+              Scaffold(
+                backgroundColor: Colors.transparent, // Transparente para ver fondo
+                body: child,
+              ),
+          ],
+        );
+      },
     );
   }
 }
