@@ -14,14 +14,16 @@ class SideMenu extends StatelessWidget {
       child: ListView(
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(color: Colors.green[600]),
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 20, 160, 27),
+            ),
             child: UserMenuBar(),
           ),
 
           //Divider(),
           SideMenuItem(
             title: "Horarios disponibles",
-            icon: Icons.event_available_sharp,
+            icon: Icons.calendar_month_rounded,
             click: () => Get.toNamed(AppRoutes.schedule),
           ),
 
@@ -36,7 +38,7 @@ class SideMenu extends StatelessWidget {
 
           SideMenuItem(
             title: "Reserva una cancha",
-            icon: Icons.event_available_sharp,
+            icon: Icons.check_box,
             click: () => Get.toNamed(
               AppRoutes.schedule,
             ), //temporal no dejar asi ya que envia a la mism ventana que "horarios disponibles"
