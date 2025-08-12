@@ -17,8 +17,8 @@ class _AnimatedBackgroundState extends State<AnimatedBackground> with SingleTick
     super.initState();
     _controller = AnimationController(vsync: this, duration: Duration(seconds: 3))..repeat(reverse: true);
 
-    _color1 = ColorTween(begin: Colors.white, end: Colors.white).animate(_controller);
-    _color2 = ColorTween(begin: Color.fromARGB(255, 255, 185, 80), end: Color.fromARGB(255, 253, 207, 138)).animate(_controller);
+    _color1 = ColorTween(begin: const Color.fromARGB(255, 57, 158, 62), end: const Color.fromARGB(255, 57, 158, 62)).animate(_controller);
+    _color2 = ColorTween(begin: Color.fromARGB(255, 35, 41, 34), end: Color.fromARGB(255, 20, 65, 33)).animate(_controller);
   }
 
   @override

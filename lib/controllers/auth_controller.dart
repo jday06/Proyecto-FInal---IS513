@@ -208,7 +208,26 @@ class AuthController extends GetxController {
       "password": password,
     });
 
-    Get.snackbar("Éxito", "Registro exitoso, ahora inicia sesión");
+    Get.snackbar("Éxito",
+    "Registro exitoso, ahora puedes iniciar sesión",
+    backgroundColor: const Color.fromARGB(255, 255, 255, 255).withValues(alpha: 0.65),
+    icon: Icon(Icons.check_circle, color: const Color.fromARGB(255, 0, 173, 9), size: 28,),
+    shouldIconPulse: false,
+    duration: Duration(seconds: 2),
+    titleText: Text("Éxito",
+      style: TextStyle(
+        color: const Color.fromARGB(255, 0, 0, 0),
+        fontWeight: FontWeight.bold,
+        fontSize: 20,
+      ),
+    ),
+    messageText: Text("Registro exitoso, ahora puedes iniciar sesión",
+      style: TextStyle(
+        color: const Color.fromARGB(255, 0, 0, 0),
+        fontSize: 18,
+      ),
+    ),
+    );
     Get.offAllNamed(AppRoutes.login);
   });
 }
