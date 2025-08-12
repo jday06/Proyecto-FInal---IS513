@@ -22,7 +22,8 @@ class HomePage extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 3, 142, 10),
+        backgroundColor:Color.fromARGB(255, 6, 124, 12),
+
       ),
       drawer:
           SideMenu(), //Barra lateral con opciones de reserva, historial, etc
