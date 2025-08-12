@@ -6,7 +6,6 @@ import 'controllers/auth_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'controllers/animation_controller.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init(); // Inicializa almacenamiento local
@@ -27,9 +26,7 @@ class MyApp extends StatelessWidget {
       initialRoute: AppRoutes.login,
       getPages: AppRoutes.routes,
       theme: ThemeData(
-        textTheme: GoogleFonts.latoTextTheme(
-          Theme.of(context).textTheme,
-        ),
+        textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
         primarySwatch: Colors.blue,
       ),
       builder: (context, child) {
@@ -38,7 +35,8 @@ class MyApp extends StatelessWidget {
             const AnimatedBackground(), // Fondo animado
             if (child != null)
               Scaffold(
-                backgroundColor: Colors.transparent, // Transparente para ver fondo
+                backgroundColor:
+                    Colors.transparent, // Transparente para ver fondo
                 body: child,
               ),
           ],
