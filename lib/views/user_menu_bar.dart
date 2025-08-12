@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-//import 'package:proyecto_final/controllers/auth_controller.dart';
 
 class UserMenuBar extends StatelessWidget {
   const UserMenuBar({super.key});

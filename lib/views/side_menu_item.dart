@@ -20,11 +20,11 @@ class SideMenuItem extends StatelessWidget {
     return ListTile(
       title: Text(title,
       style: GoogleFonts.lato(
-            fontSize: 20,
-            fontWeight: FontWeight.w300,
-            color: Colors.black,
+            fontSize: 22,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
           ),),
-      leading: Icon(icon,size: 30),
+      leading: Icon(icon,size: 30, color: Colors.white),
       onTap: click,
     );
   }
