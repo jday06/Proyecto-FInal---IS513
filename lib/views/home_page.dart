@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.green[600],
+        backgroundColor:Color.fromARGB(255, 6, 124, 12),
       ),
       drawer:
           SideMenu(), //Barra lateral con opciones de reserva, historial, etc
@@ -29,10 +29,10 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-              SizedBox(
-              //height: 150,
-              //width: 300,
-              child: Image.asset('assets/footballfield.png'),
+            SizedBox(
+            height: 80,
+            width: 120,
+            child: Image.asset('assets/footballfield.png'),
             ),
             SizedBox(height: 20),
             Text(

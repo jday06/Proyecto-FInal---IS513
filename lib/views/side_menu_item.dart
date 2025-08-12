@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 //Widget para items en la barra lateral en pantalla home:
 
@@ -17,8 +18,13 @@ class SideMenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(title, style: TextStyle(fontWeight: FontWeight.normal)),
-      leading: Icon(icon),
+      title: Text(title,
+      style: GoogleFonts.lato(
+            fontSize: 20,
+            fontWeight: FontWeight.w300,
+            color: Colors.black,
+          ),),
+      leading: Icon(icon,size: 30),
       onTap: click,
     );
   }
