@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../routes/app_routes.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:proyecto_final/views/side_menu.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -8,24 +8,36 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Inicio')),
+      backgroundColor: const Color.fromARGB(255, 241, 118, 81),
+      appBar: AppBar(
+        title: Text(
+          'SportFinder',
+          style: GoogleFonts.lato(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.green[600],
+      ),
+      drawer:
+          SideMenu(), //Barra lateral con opciones de reserva, historial, etc
+
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Pantalla Principal - Canchas'),
+            SizedBox(
+              height: 150,
+              width: 300,
+              child: Image.asset('assets/footballfield.png'),
+            ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => Get.toNamed(AppRoutes.schedule),
-              child: Text('Ver horarios de una cancha'),
-            ),
-            ElevatedButton(
-              onPressed: () => Get.toNamed(AppRoutes.historial),
-              child: Text('Ir a Historial de Reservas'),
-            ),
-            ElevatedButton(
-              onPressed: () => Get.offAllNamed(AppRoutes.login),
-              child: Text('Cerrar sesión'),
+            Text(
+              "Text de ejemplo para rellenar mas diseno....",
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
         ),
