@@ -15,17 +15,18 @@ class RegisterPage extends StatelessWidget {
       return InputDecoration(
         labelText: label,
         labelStyle: GoogleFonts.lato(
-          color: Color(0xFF2E7D32),
-          fontWeight: FontWeight.normal,
+          fontSize: 20,
+          color: Colors.white54,
+          fontWeight: FontWeight.w400,
         ),
-        prefixIcon: Icon(icon, color: Color(0xFF2E7D32)),
+        prefixIcon: Icon(icon, color: Colors.white),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
-          borderSide: BorderSide(color: Color(0xFF2E7D32), width: 1),
+          borderSide: BorderSide(color: Colors.white, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
-          borderSide: BorderSide(color: Color(0xFFF57C00), width: 1),
+          borderSide: BorderSide(color: Colors.white, width: 1),
         ),
       );
     }
@@ -44,7 +45,7 @@ class RegisterPage extends StatelessWidget {
         ),
         centerTitle: true,
         toolbarHeight: 60.0,
-        backgroundColor: const Color(0xFF2E7D32),
+        backgroundColor: const Color.fromARGB(255, 6, 124, 12),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -52,15 +53,16 @@ class RegisterPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: 120),
+              SizedBox(height: 100),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Text(
                   "Regístrate con tu correo @unah.hn o @unah.edu.hn para comenzar a reservar.",
                   style: GoogleFonts.lato(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 26,
+                    fontWeight: FontWeight.w600,
                     fontStyle: FontStyle.italic,
+                    color: Colors.white
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -71,7 +73,8 @@ class RegisterPage extends StatelessWidget {
               TextField(
                 controller: controller.emailController,
                 keyboardType: TextInputType.emailAddress,
-                style: GoogleFonts.lato(fontSize: 18, color: Colors.black87),
+                style: GoogleFonts.lato(
+                  fontSize: 20,fontWeight: FontWeight.w400 , color: Colors.white),
                 decoration: inputDecoration('Correo electrónico', Icons.email),
               ),
               SizedBox(height: 20),
@@ -80,7 +83,8 @@ class RegisterPage extends StatelessWidget {
               TextField(
                 controller: controller.confirmEmailController,
                 keyboardType: TextInputType.emailAddress,
-                style: GoogleFonts.lato(fontSize: 18, color: Colors.black87),
+                style: GoogleFonts.lato(
+                  fontSize: 20,fontWeight: FontWeight.w400 , color: Colors.white),
                 decoration: inputDecoration('Confirme su correo electrónico', Icons.email_outlined),
               ),
               SizedBox(height: 20),
@@ -89,7 +93,8 @@ class RegisterPage extends StatelessWidget {
               TextField(
                 controller: controller.passwordController,
                 obscureText: true,
-                style: GoogleFonts.lato(fontSize: 18, color: Colors.black87),
+                style: GoogleFonts.lato(
+                  fontSize: 20,fontWeight: FontWeight.w400 , color: Colors.white),
                 decoration: inputDecoration('Contraseña', Icons.lock),
               ),
               SizedBox(height: 20),
@@ -98,20 +103,21 @@ class RegisterPage extends StatelessWidget {
               TextField(
                 controller: controller.confirmPasswordController,
                 obscureText: true,
-                style: GoogleFonts.lato(fontSize: 18, color: Colors.black87),
+                style: GoogleFonts.lato(
+                  fontSize: 20,fontWeight: FontWeight.w400 , color: Colors.white),
                 decoration: inputDecoration('Confirme su contraseña', Icons.lock_outline),
               ),
 
               SizedBox(height: 40),
               Obx(() => ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFFF57C00),
+                  backgroundColor: Color.fromARGB(255, 30, 117, 35),
                   padding: EdgeInsets.symmetric(vertical: 14),
                   minimumSize: Size(double.infinity, 48),
                 ),
                 onPressed: controller.isLoading.value ? null : controller.register,
                 child: controller.isLoading.value
-                    ? CircularProgressIndicator(color: Color(0xFFF57C00))
+                    ? CircularProgressIndicator(color: Color.fromARGB(255, 57, 158, 62))
                     : Text(
                         'Registrarse',
                         style: GoogleFonts.lato(
@@ -127,9 +133,9 @@ class RegisterPage extends StatelessWidget {
                 child: Text(
                   '¿Ya tienes cuenta? Inicia sesión',
                   style: GoogleFonts.lato(
-                    color: Color(0xFF2E7D32),
+                    color: Color.fromARGB(255, 9, 30, 10),
                     fontSize: 17,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                     decoration: TextDecoration.underline,
                   ),
                 ),
