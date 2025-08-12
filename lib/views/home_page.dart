@@ -29,9 +29,9 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 150,
-              width: 300,
+              SizedBox(
+              //height: 150,
+              //width: 300,
               child: Image.asset('assets/footballfield.png'),
             ),
             SizedBox(height: 20),
