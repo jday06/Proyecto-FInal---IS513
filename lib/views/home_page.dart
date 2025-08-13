@@ -4,7 +4,6 @@ import 'package:proyecto_final/controllers/auth_controller.dart';
 import 'package:proyecto_final/routes/app_routes.dart';
 import 'package:proyecto_final/views/side_menu.dart';
 import 'package:get/get.dart';
-import 'package:proyecto_final/controllers/auth_controller.dart';
 
 class HomePage extends StatelessWidget {
   final AuthController authController = Get.find<AuthController>();
@@ -13,15 +12,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     final loggedUser = authController.storageService.getLoggedUser();
     final username = loggedUser?['username'] ?? 'Usuario';
     final initial = username.isNotEmpty ? username[0].toUpperCase() : '?';
-=======
     final double screenWidth = MediaQuery.of(context).size.width;
     final double buttonSpacing = screenWidth * 0.05; // 5% del ancho como separación
     final double buttonSize = (screenWidth - (buttonSpacing * 4)) / 3; // 3 botones + espacios
->>>>>>> origin
 
     return Scaffold(
       appBar: AppBar(
@@ -35,11 +31,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-<<<<<<< HEAD
         backgroundColor: Color.fromARGB(255, 6, 124, 12),
-=======
-        backgroundColor: const Color.fromARGB(255, 6, 124, 12),
->>>>>>> origin
       ),
       drawer: const SideMenu(),
       body: Center(
@@ -51,7 +43,6 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: Row(
                 children: [
-<<<<<<< HEAD
                   CircleAvatar(
                     radius: 30,
                     child: Text(
@@ -70,22 +61,6 @@ class HomePage extends StatelessWidget {
                     children: [
                       Text("Hola $username!"),
                       SizedBox(height: 10),
-=======
-                  const CircleAvatar(radius: 30, child: Icon(Icons.person)),
-                  const SizedBox(width: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        " Hola Jeshua!",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
->>>>>>> origin
                       Text(
                         "¿Qué piensas hacer hoy?",
                         style: GoogleFonts.arima(

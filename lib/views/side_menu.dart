@@ -34,20 +34,11 @@ class SideMenu extends StatelessWidget {
             UserAccountsDrawerHeader(
               decoration: BoxDecoration(color: Colors.green.shade900),
               accountName: Text(
-<<<<<<< HEAD
                 username, // Cambia para que sea dinámico
                 style: GoogleFonts.lato(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
-=======
-                "Usuario Ejemplo",
-                style: GoogleFonts.lato(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              accountEmail: Text(
-                "usuario@unah.hn",
-                style: GoogleFonts.lato(fontSize: 14),
->>>>>>> origin
               ),
               accountEmail: Text(email, style: GoogleFonts.lato(fontSize: 14)),
               currentAccountPicture: CircleAvatar(

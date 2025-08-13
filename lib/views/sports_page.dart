@@ -1,6 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:proyecto_final/controllers/canchas_controller.dart';
-import 'package:proyecto_final/models/cancha_model.dart';
+import 'package:http/http.dart' as http;
 
 class SportsPage extends StatefulWidget {
   const SportsPage({super.key});
@@ -10,18 +10,46 @@ class SportsPage extends StatefulWidget {
 }
 
 class _SportsPageState extends State<SportsPage> {
-  final CanchasController _controller = CanchasController();
   bool loading = true;
+  List<Map<String, dynamic>> _canchas = [];
 
   @override
   void initState() {
     super.initState();
-    _cargar();
+    _cargarCanchas();
   }
 
-  void _cargar() async {
-    await _controller.cargarCanchas();
+  Future<void> _cargarCanchas() async {
+    try {
+      final response = await http.get(Uri.parse(
+          'https://raw.githubusercontent.com/jday06/cancha-api/main/db.json'));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        _canchas = (data['canchas'] as List)
+            .map((c) => Map<String, dynamic>.from(c))
+            .toList();
+      } else {
+        throw Exception("Error al obtener canchas");
+      }
+    } catch (e) {
+      debugPrint("Error de conexión: $e");
+      _canchas = [];
+    }
     setState(() => loading = false);
+  }
+
+  String _formatPrecio(dynamic precio) {
+    if (precio == null) return "No disponible";
+    if (precio is num) return "Lps ${precio.toStringAsFixed(2)}";
+    if (precio is String) {
+      final cleaned =
+          precio.replaceAll(RegExp(r'[^\d\.,]'), '').replaceAll(',', '.');
+      final parsed = double.tryParse(cleaned);
+      return parsed != null
+          ? "Lps ${parsed.toStringAsFixed(2)}"
+          : "Lps $precio";
+    }
+    return "Lps $precio";
   }
 
   @override
@@ -33,7 +61,7 @@ class _SportsPageState extends State<SportsPage> {
       ),
       body: loading
           ? const Center(child: CircularProgressIndicator())
-          : _controller.canchas.isEmpty
+          : _canchas.isEmpty
               ? const Center(
                   child: Text(
                     "No hay canchas disponibles",
@@ -42,16 +70,16 @@ class _SportsPageState extends State<SportsPage> {
                 )
               : ListView.builder(
                   padding: const EdgeInsets.all(12),
-                  itemCount: _controller.canchas.length,
+                  itemCount: _canchas.length,
                   itemBuilder: (context, index) {
-                    final cancha = _controller.canchas[index];
+                    final cancha = _canchas[index];
                     return _buildCanchaCard(cancha);
                   },
                 ),
     );
   }
 
-  Widget _buildCanchaCard(Cancha cancha) {
+  Widget _buildCanchaCard(Map<String, dynamic> cancha) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 4,
@@ -61,16 +89,18 @@ class _SportsPageState extends State<SportsPage> {
         children: [
           // Imagen de la cancha
           ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+            borderRadius:
+                const BorderRadius.vertical(top: Radius.circular(12)),
             child: Image.network(
-              cancha.imagen,
+              cancha['imagen'] ?? '',
               height: 180,
               width: double.infinity,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) => Container(
                 height: 180,
                 color: Colors.grey[300],
-                child: const Icon(Icons.broken_image, size: 50, color: Colors.grey),
+                child: const Icon(Icons.broken_image,
+                    size: 50, color: Colors.grey),
               ),
             ),
           ),
@@ -80,18 +110,14 @@ class _SportsPageState extends State<SportsPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  cancha.nombre,
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  cancha.tipo,
-                  style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                  cancha['cancha'] ?? 'Sin nombre',
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
-                Text("Horario: ${cancha.horario}"),
-                Text("Precio: Lps ${cancha.precio.toStringAsFixed(2)}"),
-                Text("Ubicación: ${cancha.ubicacion}"),
+                Text("Horario: ${cancha['hora'] ?? 'No disponible'}"),
+                Text(_formatPrecio(cancha['precio'])),
+                Text("Ubicación: ${cancha['ubicacion'] ?? 'No disponible'}"),
               ],
             ),
           ),
