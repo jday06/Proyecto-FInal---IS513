@@ -7,6 +7,7 @@ import 'package:proyecto_final/views/home_page.dart';
 import 'package:proyecto_final/views/schedule_page.dart';
 import 'package:proyecto_final/views/historial_page.dart';
 import 'package:proyecto_final/views/sports_page.dart';
+import 'package:proyecto_final/views/reserva_cancha_page.dart';
 
 class AppRoutes {
   static const login = '/login';
@@ -17,6 +18,7 @@ class AppRoutes {
   static const sports = '/sports';
   static const location = '/location';
   static const mycalendar = '/mycalendar';
+  static const reserva = '/reserva';
 
   static final routes = [
     GetPage(name: login, page: () => LoginPage()),
@@ -27,5 +29,6 @@ class AppRoutes {
     GetPage(name: sports, page: () => SportsPage()),
     GetPage(name: location, page: () => CloseToYouPage()),
     GetPage(name: mycalendar, page: () => MyCalendarPage()),
+    GetPage(name: reserva, page: () => ReserveCanchaPage()),
   ];
 }

@@ -83,7 +83,7 @@ class SideMenu extends StatelessWidget {
             SideMenuItem(
               title: "Reservar cancha",
               icon: Icons.check_box,
-              click: () => Get.toNamed(AppRoutes.schedule),
+              click: () => Get.toNamed(AppRoutes.reserva),
             ),
 
             Divider(
