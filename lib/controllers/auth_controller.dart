@@ -17,7 +17,7 @@ class AuthController extends GetxController {
   var isConfirmPasswordHidden = true.obs; // Para register confirm password
 
   void login() {
-    final username = nameController.text.trim();
+    //final username = nameController.text.trim();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
