@@ -21,7 +21,7 @@ class AuthController extends GetxController {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
-    if (username.isEmpty || email.isEmpty || password.isEmpty) {
+    if (email.isEmpty || password.isEmpty) {
       _showError("Todos los campos son obligatorios");
       return;
     }
