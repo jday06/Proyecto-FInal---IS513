@@ -9,8 +9,11 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double buttonSpacing = screenWidth * 0.05; // 5% del ancho como separación
+    final double buttonSize = (screenWidth - (buttonSpacing * 4)) / 3; // 3 botones + espacios
+
     return Scaffold(
-      //backgroundColor: const Color.fromARGB(255, 241, 118, 81),
       appBar: AppBar(
         title: Text(
           'SportFinder',
@@ -22,40 +25,34 @@ class HomePage extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        backgroundColor:Color.fromARGB(255, 6, 124, 12),
-
+        backgroundColor: const Color.fromARGB(255, 6, 124, 12),
       ),
-      drawer:
-          SideMenu(), //Barra lateral con opciones de reserva, historial, etc
-
+      drawer: const SideMenu(),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 25),
-
+            const SizedBox(height: 20),
             Padding(
-              padding: EdgeInsets.all(25),
+              padding: const EdgeInsets.all(20),
               child: Row(
                 children: [
-                  CircleAvatar(radius: 30, child: Icon(Icons.person)),
-                  SizedBox(width: 10),
-
+                  const CircleAvatar(radius: 30, child: Icon(Icons.person)),
+                  const SizedBox(width: 12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Hola Jeshua!",
+                      const Text(
+                        " Hola Jeshua!",
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Text(
-                        "Que piensas hacer hoy?",
+                        "¿Qué piensas hacer hoy?",
                         style: GoogleFonts.arima(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -66,62 +63,56 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 25),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(shape: CircleBorder()),
-                  onPressed: () => Get.toNamed(AppRoutes.sports),
-                  child: Image.asset(
-                    "assets/sports.png",
-                    height: 100,
-                    width: 100,
+            const SizedBox(height: 25),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: buttonSpacing),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: buttonSize,
+                    height: buttonSize,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(shape: const CircleBorder()),
+                      onPressed: () => Get.toNamed(AppRoutes.sports),
+                      child: SizedBox(
+                        width: buttonSize * 0.9,
+                        height: buttonSize * 0.9,
+                        child: Image.asset(
+                          "assets/sports.png",
+                          height: buttonSize * 0.9,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-                SizedBox(width: 15),
 
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    minimumSize: Size(120, 120),
+                  SizedBox(
+                    width: buttonSize,
+                    height: buttonSize,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(shape: const CircleBorder()),
+                      onPressed: () => Get.toNamed(AppRoutes.location),
+                      child: Image.asset(
+                        "assets/location.png",
+                        height: buttonSize * 0.6,
+                      ),
+                    ),
                   ),
-                  onPressed: () => Get.toNamed(AppRoutes.location),
-                  child: Image.asset(
-                    "assets/location.png",
-                    height: 90,
-                    width: 90,
+                  SizedBox(
+                    width: buttonSize,
+                    height: buttonSize,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(shape: const CircleBorder()),
+                      onPressed: () => Get.toNamed(AppRoutes.mycalendar),
+                      child: Image.asset(
+                        "assets/calendar.png",
+                        height: buttonSize * 0.9,
+                      ),
+                    ),
                   ),
-                ),
-
-                SizedBox(width: 15),
-
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: CircleBorder(),
-                    minimumSize: Size(120, 120),
-                  ),
-                  onPressed: () => Get.toNamed(AppRoutes.mycalendar),
-                  child: Image.asset(
-                    "assets/calendar.png",
-                    height: 90,
-                    width: 90,
-                  ),
-                ),
-
-                // SizedBox(
-                //   height: 100,
-                //   width: 150,
-                //   child: Image.asset('assets/footballfield.png'),
-                // ),
-              ],
+                ],
+              ),
             ),
-            // SizedBox(
-            //   height: 100,
-            //   width: 240,
-            //   child: Image.asset('assets/footballfield.png'),
-            // ),
-            SizedBox(height: 20),
           ],
         ),
       ),
