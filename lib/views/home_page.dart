@@ -4,14 +4,8 @@ import 'package:proyecto_final/controllers/auth_controller.dart';
 import 'package:proyecto_final/routes/app_routes.dart';
 import 'package:proyecto_final/views/side_menu.dart';
 import 'package:get/get.dart';
-<<<<<<< HEAD
 import 'package:proyecto_final/controllers/canchas_controller.dart';
 import 'package:proyecto_final/models/cancha_model.dart';
-=======
-
-class HomePage extends StatelessWidget {
-  final AuthController authController = Get.find<AuthController>();
->>>>>>> origin
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -42,13 +36,8 @@ class _HomePageState extends State<HomePage> {
     final username = loggedUser?['username'] ?? 'Usuario';
     final initial = username.isNotEmpty ? username[0].toUpperCase() : '?';
     final double screenWidth = MediaQuery.of(context).size.width;
-<<<<<<< HEAD
     final double buttonSpacing = screenWidth * 0.05;
     final double buttonSize = (screenWidth - (buttonSpacing * 4)) / 3;
-=======
-    final double buttonSpacing = screenWidth * 0.05; // 5% del ancho como separación
-    final double buttonSize = (screenWidth - (buttonSpacing * 4)) / 3; // 3 botones + espacios
->>>>>>> origin
 
     return Scaffold(
       appBar: AppBar(
@@ -62,11 +51,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         centerTitle: true,
-<<<<<<< HEAD
         backgroundColor: const Color.fromARGB(255, 6, 124, 12),
-=======
-        backgroundColor: Color.fromARGB(255, 6, 124, 12),
->>>>>>> origin
       ),
       drawer: const SideMenu(),
       body: Center(
@@ -95,11 +80,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Hola $username!"),
-<<<<<<< HEAD
-                      const SizedBox(height: 10),
-=======
                       SizedBox(height: 10),
->>>>>>> origin
                       Text(
                         "¿Qué reservamos hoy?",
                         style: GoogleFonts.arima(
