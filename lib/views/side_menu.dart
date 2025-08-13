@@ -26,7 +26,7 @@ class SideMenu extends StatelessWidget {
                 color: Colors.green.shade900,
               ),
               accountName: Text(
-                "Usuario Ejemplo", // Cambia para que sea dinámico
+                "Usuario Ejemplo",
                 style: GoogleFonts.lato(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               accountEmail: Text(

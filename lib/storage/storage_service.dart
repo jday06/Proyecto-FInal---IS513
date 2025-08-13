@@ -16,6 +16,7 @@ class StorageService {
     _storage.remove('registeredUser');
   }
 
+
   // Usuario logueado (sesión actual)
   void saveLoggedUser(Map<String, dynamic> user) {
     _storage.write('loggedUser', user);

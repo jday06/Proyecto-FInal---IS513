@@ -32,11 +32,11 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return Stack(
           children: [
-            const AnimatedBackground(), // Fondo animado
+            const AnimatedBackground(),
             if (child != null)
               Scaffold(
                 backgroundColor:
-                    Colors.transparent, // Transparente para ver fondo
+                    Colors.transparent,
                 body: child,
               ),
           ],
