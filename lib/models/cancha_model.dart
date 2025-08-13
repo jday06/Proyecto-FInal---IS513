@@ -3,7 +3,7 @@ class Cancha {
   final String nombre;
   final String tipo;
   final String horario;
-  final double precio;
+  final dynamic precio; // Puede ser int, double o string
   final String ubicacion;
   final String imagen;
 
@@ -23,7 +23,7 @@ class Cancha {
       nombre: json['cancha'],
       tipo: json['icono'],
       horario: json['hora'],
-      precio: json['precio'] != null ? (json['precio'] as num).toDouble() : 0.0,
+      precio: json['precio'], // Lo dejamos tal cual viene del JSON
       ubicacion: json['ubicacion'],
       imagen: json['imagen'],
     );

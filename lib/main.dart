@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Reserva de Canchas',
       debugShowCheckedModeBanner: false,
-      initialRoute: AppRoutes.register,
+      initialRoute: AppRoutes.home,
       getPages: AppRoutes.routes,
       theme: ThemeData(
         textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
