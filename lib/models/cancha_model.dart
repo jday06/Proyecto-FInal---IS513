@@ -1,35 +1,31 @@
 class Cancha {
-  final int? id;
+  final int id;
   final String nombre;
   final String tipo;
   final String horario;
   final double precio;
+  final String ubicacion;
+  final String imagen;
 
   Cancha({
-    this.id,
+    required this.id,
     required this.nombre,
     required this.tipo,
     required this.horario,
     required this.precio,
+    required this.ubicacion,
+    required this.imagen,
   });
 
   factory Cancha.fromJson(Map<String, dynamic> json) {
     return Cancha(
       id: json['id'],
-      nombre: json['nombre'],
-      tipo: json['tipo'],
-      horario: json['horario'],
-      precio: json['precio'].toDouble(),
+      nombre: json['cancha'],
+      tipo: json['icono'],
+      horario: json['hora'],
+      precio: json['precio'] != null ? (json['precio'] as num).toDouble() : 0.0,
+      ubicacion: json['ubicacion'],
+      imagen: json['imagen'],
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'nombre': nombre,
-      'tipo': tipo,
-      'horario': horario,
-      'precio': precio,
-    };
   }
 }
