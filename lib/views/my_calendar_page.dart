@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-//import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:proyecto_final/storage/storage_service.dart';
+import 'package:get/get.dart';
 
 class MyCalendarPage extends StatefulWidget {
   const MyCalendarPage({super.key});
@@ -19,9 +19,8 @@ class _MyCalendarPageState extends State<MyCalendarPage> {
   DateTime diaSeleccionado = DateTime.now();
   DateTime diaEnfocado = DateTime.now();
 
-  DateTime _soloFecha(DateTime fecha) {
-    return DateTime(fecha.year, fecha.month, fecha.day);
-  }
+  DateTime _soloFecha(DateTime fecha) =>
+      DateTime(fecha.year, fecha.month, fecha.day);
 
   @override
   void initState() {
@@ -31,33 +30,41 @@ class _MyCalendarPageState extends State<MyCalendarPage> {
 
   void cargarReservas() {
     final todas = _storageService.getReservations();
-
-    // Obtener uid del usuario logueado
     final user = _storageService.getLoggedUser();
     final uid = user?["uid"];
 
     if (uid != null) {
       reservas = todas.where((r) => r["uid"] == uid).toList();
+      reservas.sort((a, b) => DateTime.parse(a["fecha"])
+          .compareTo(DateTime.parse(b["fecha"])));
 
-      // Ordenar por fecha ascendente para mejor visualización en calendario
-      reservas.sort((a, b) {
-        final fa = DateTime.parse(a["fecha"]);
-        final fb = DateTime.parse(b["fecha"]);
-        return fa.compareTo(fb);
-      });
-
-      //mapa eventos para TableCalendar
       eventos = {};
       for (var r in reservas) {
         DateTime fecha = _soloFecha(DateTime.parse(r["fecha"]));
-        if (eventos[fecha] == null) {
-          eventos[fecha] = [];
-        }
+        if (eventos[fecha] == null) eventos[fecha] = [];
         eventos[fecha]!.add(r);
       }
     }
-
     setState(() {});
+  }
+
+  void eliminarReserva(Map<String, dynamic> reserva) {
+    Get.defaultDialog(
+      title: "Eliminar Reserva",
+      middleText:
+          "¿Seguro que deseas eliminar la reserva de ${reserva['cancha']} a las ${reserva['hora']}?",
+      textConfirm: "Sí",
+      textCancel: "No",
+      confirmTextColor: Colors.white,
+      onConfirm: () {
+        _storageService.deleteReservation(reserva); // elimina del storage
+        reservas.remove(reserva); // elimina de la lista local
+        cargarReservas(); // recarga eventos y lista
+        Get.back();
+        Get.snackbar("Reserva eliminada", "La reserva ha sido eliminada",
+            backgroundColor: Colors.red[200], snackPosition: SnackPosition.BOTTOM);
+      },
+    );
   }
 
   @override
@@ -84,15 +91,12 @@ class _MyCalendarPageState extends State<MyCalendarPage> {
         child: Column(
           children: [
             const SizedBox(height: 10),
-
             TableCalendar(
               focusedDay: diaEnfocado,
               firstDay: DateTime.now().subtract(const Duration(days: 365)),
               lastDay: DateTime.now().add(const Duration(days: 365)),
               selectedDayPredicate: (day) =>
-                  day.year == diaSeleccionado.year &&
-                  day.month == diaSeleccionado.month &&
-                  day.day == diaSeleccionado.day,
+                  _soloFecha(day) == _soloFecha(diaSeleccionado),
               onDaySelected: (selectedDay, focusedDay) {
                 setState(() {
                   diaSeleccionado = selectedDay;
@@ -112,77 +116,16 @@ class _MyCalendarPageState extends State<MyCalendarPage> {
                     BoxDecoration(color: Colors.green[700], shape: BoxShape.circle),
                 weekendTextStyle: const TextStyle(color: Colors.red),
               ),
-              eventLoader: (day) {
-                return eventos[_soloFecha(day)] ?? [];
-              },
-              calendarBuilders: CalendarBuilders(
-                defaultBuilder: (context, date, focusedDay) {
-                  bool tieneEventos = (eventos[_soloFecha(date)] ?? []).isNotEmpty;
-                  if (tieneEventos) {
-                    return Container(
-                      margin: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: Colors.orange.withValues(alpha:0.3),
-                        shape: BoxShape.circle,
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        '${date.day}',
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    );
-                  }
-                  return null; // Días sin evento se muestran por defecto
-                },
-                todayBuilder: (context, date, _) {
-                  return Container(
-                    margin: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: Colors.orange[400],
-                      shape: BoxShape.circle,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      '${date.day}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  );
-                },
-                selectedBuilder: (context, date, _) {
-                  return Container(
-                    margin: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: Colors.orange[700],
-                      shape: BoxShape.circle,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      '${date.day}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  );
-                },
-              ),
-
+              eventLoader: (day) => eventos[_soloFecha(day)] ?? [],
             ),
-
             const SizedBox(height: 10),
-
             Expanded(
               child: reservasDelDia.isEmpty
                   ? Center(
                       child: Text(
                         "No tienes reservas para este día.",
-                        style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.w500),
+                        style: GoogleFonts.lato(
+                            fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                     )
                   : ListView.builder(
@@ -217,6 +160,10 @@ class _MyCalendarPageState extends State<MyCalendarPage> {
                               reserva["cancha"] ?? "",
                               style: GoogleFonts.lato(fontSize: 16),
                             ),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              onPressed: () => eliminarReserva(reserva),
+                            ),
                           ),
                         );
                       },
@@ -228,7 +175,6 @@ class _MyCalendarPageState extends State<MyCalendarPage> {
     );
   }
 
-  // Método helper para iconos según cancha
   IconData _iconoPorCancha(String cancha) {
     switch (cancha.toLowerCase()) {
       case "fútbol 11":

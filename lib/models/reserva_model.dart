@@ -1,35 +1,37 @@
 class Reserva {
-  final int id;
-  final int usuarioId;
+  final String uid; // usuario que reserva
   final String cancha;
-  final String fecha;
-  final String hora;
+  final String horario;
+  final String precio;
+  final String ubicacion;
+  final DateTime fecha;
 
   Reserva({
-    required this.id,
-    required this.usuarioId,
+    required this.uid,
     required this.cancha,
+    required this.horario,
+    required this.precio,
+    required this.ubicacion,
     required this.fecha,
-    required this.hora,
   });
+
+  Map<String, dynamic> toJson() => {
+        "uid": uid,
+        "cancha": cancha,
+        "horario": horario,
+        "precio": precio,
+        "ubicacion": ubicacion,
+        "fecha": fecha.toIso8601String(),
+      };
 
   factory Reserva.fromJson(Map<String, dynamic> json) {
     return Reserva(
-      id: json['id'],
-      usuarioId: json['usuarioId'],
+      uid: json['uid'],
       cancha: json['cancha'],
-      fecha: json['fecha'],
-      hora: json['hora'],
+      horario: json['horario'],
+      precio: json['precio'],
+      ubicacion: json['ubicacion'],
+      fecha: DateTime.parse(json['fecha']),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'usuarioId': usuarioId,
-      'cancha': cancha,
-      'fecha': fecha,
-      'hora': hora,
-    };
   }
 }

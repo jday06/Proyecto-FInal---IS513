@@ -16,7 +16,6 @@ class StorageService {
     _storage.remove('registeredUser');
   }
 
-
   // Usuario logueado (sesión actual)
   void saveLoggedUser(Map<String, dynamic> user) {
     _storage.write('loggedUser', user);
@@ -32,7 +31,6 @@ class StorageService {
 
   // --- Reservas del usuario logueado
   void saveReservation(Map<String, dynamic> reserva) {
-    // Lee la lista actual o crea una vacía
     List<dynamic> reservas = _storage.read('reservas') ?? [];
     reservas.add(reserva);
     _storage.write('reservas', reservas);
@@ -40,11 +38,21 @@ class StorageService {
 
   List<Map<String, dynamic>> getReservations() {
     final reservas = _storage.read<List<dynamic>>('reservas') ?? [];
-    // Convertir a List<Map<String, dynamic>>
     return reservas.map((e) => Map<String, dynamic>.from(e)).toList();
   }
 
   void clearReservations() {
     _storage.remove('reservas');
+  }
+
+  // --- Nuevo método para eliminar una reserva
+  void deleteReservation(Map<String, dynamic> reserva) {
+    List<dynamic> reservas = _storage.read('reservas') ?? [];
+    reservas.removeWhere((r) =>
+        r["uid"] == reserva["uid"] &&
+        r["cancha"] == reserva["cancha"] &&
+        r["fecha"] == reserva["fecha"] &&
+        r["hora"] == reserva["hora"]);
+    _storage.write('reservas', reservas);
   }
 }
