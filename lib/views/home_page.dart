@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:proyecto_final/controllers/auth_controller.dart';
 import 'package:proyecto_final/routes/app_routes.dart';
 import 'package:proyecto_final/views/side_menu.dart';
 import 'package:get/get.dart';
+import 'package:proyecto_final/controllers/auth_controller.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final AuthController authController = Get.find<AuthController>();
+
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final loggedUser = authController.storageService.getLoggedUser();
+    final username = loggedUser?['username'] ?? 'Usuario';
+    final initial = username.isNotEmpty ? username[0].toUpperCase() : '?';
+
     return Scaffold(
       //backgroundColor: const Color.fromARGB(255, 241, 118, 81),
       appBar: AppBar(
@@ -22,8 +30,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        backgroundColor:Color.fromARGB(255, 6, 124, 12),
-
+        backgroundColor: Color.fromARGB(255, 6, 124, 12),
       ),
       drawer:
           SideMenu(), //Barra lateral con opciones de reserva, historial, etc
@@ -39,20 +46,23 @@ class HomePage extends StatelessWidget {
               padding: EdgeInsets.all(25),
               child: Row(
                 children: [
-                  CircleAvatar(radius: 30, child: Icon(Icons.person)),
+                  CircleAvatar(
+                    radius: 30,
+                    child: Text(
+                      initial,
+                      style: const TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 0, 125, 6),
+                      ),
+                    ),
+                  ),
                   SizedBox(width: 10),
 
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Hola Jeshua!",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      Text("Hola $username!"),
                       SizedBox(height: 10),
                       Text(
                         "Que piensas hacer hoy?",

@@ -4,6 +4,7 @@ import 'package:proyecto_final/routes/app_routes.dart';
 import 'package:proyecto_final/storage/storage_service.dart';
 
 class AuthController extends GetxController {
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final confirmEmailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -11,12 +12,16 @@ class AuthController extends GetxController {
   final storageService = StorageService(); // usamos el almacenamiento local
 
   var isLoading = false.obs;
+  var isPasswordHidden = true.obs; // Para login
+  var isRegisterPasswordHidden = true.obs; // Para register password
+  var isConfirmPasswordHidden = true.obs; // Para register confirm password
 
   void login() {
+    final username = nameController.text.trim();
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
-    if (email.isEmpty || password.isEmpty) {
+    if (username.isEmpty || email.isEmpty || password.isEmpty) {
       _showError("Todos los campos son obligatorios");
       return;
     }
@@ -28,12 +33,17 @@ class AuthController extends GetxController {
 
     final registeredUser = storageService.getRegisteredUser();
     if (registeredUser == null) {
-      _showError("No existe ningún usuario registrado. Por favor regístrate primero");
+      _showError(
+        "No existe ningún usuario registrado. Por favor regístrate primero",
+      );
       return;
     }
 
-    if (email != registeredUser['email'] || password != registeredUser['password']) {
-      _showError("Correo o contraseña incorrectos. Por favor verifica tus datos");
+    if (email != registeredUser['email'] ||
+        password != registeredUser['password']) {
+      _showError(
+        "Correo o contraseña incorrectos. Por favor verifica tus datos",
+      );
       return;
     }
 
@@ -41,7 +51,11 @@ class AuthController extends GetxController {
     isLoading.value = true;
     Future.delayed(Duration(seconds: 2), () {
       isLoading.value = false;
-      storageService.saveLoggedUser({"uid": "12345", "email": email});
+      storageService.saveLoggedUser({
+        "uid": "12345",
+        "email": email,
+        "username": registeredUser['username'],
+      });
       Get.offAllNamed(AppRoutes.home);
     });
   }
@@ -57,22 +71,20 @@ class AuthController extends GetxController {
 
   void register() {
     final email = emailController.text.trim();
-    final confirmEmail = confirmEmailController.text.trim();
+    final username = nameController.text.trim();
     final password = passwordController.text.trim();
     final confirmPassword = confirmPasswordController.text.trim();
 
-    if (email.isEmpty || confirmEmail.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+    if (email.isEmpty ||
+        username.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty) {
       _showError("Todos los campos son obligatorios");
       return;
     }
 
-    if (!GetUtils.isEmail(email) || !GetUtils.isEmail(confirmEmail)) {
-      _showError("Ingrese correos válidos");
-      return;
-    }
-
-    if (email != confirmEmail) {
-      _showError("Los correos no coinciden");
+    if (!GetUtils.isEmail(email)) {
+      _showError("Ingrese un correo valido");
       return;
     }
 
@@ -99,13 +111,23 @@ class AuthController extends GetxController {
       storageService.saveRegisteredUser({
         "email": email,
         "password": password,
+        "username": username,
       });
 
       Get.snackbar(
         "Éxito",
         "Registro exitoso, ahora puedes iniciar sesión",
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255).withValues(alpha: 0.65),
-        icon: Icon(Icons.check_circle, color: const Color.fromARGB(255, 0, 173, 9), size: 28),
+        backgroundColor: const Color.fromARGB(
+          255,
+          255,
+          255,
+          255,
+        ).withValues(alpha: 0.65),
+        icon: Icon(
+          Icons.check_circle,
+          color: const Color.fromARGB(255, 0, 173, 9),
+          size: 28,
+        ),
         shouldIconPulse: false,
         duration: Duration(seconds: 2),
         titleText: Text(

@@ -62,71 +62,130 @@ class RegisterPage extends StatelessWidget {
                     fontSize: 26,
                     fontWeight: FontWeight.w600,
                     fontStyle: FontStyle.italic,
-                    color: Colors.white
+                    color: Colors.white,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
               SizedBox(height: 80),
 
-              // Correo
+              // Username
+              TextField(
+                controller: controller.nameController,
+                keyboardType: TextInputType.name,
+                style: GoogleFonts.lato(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                ),
+                decoration: inputDecoration(
+                  'Escribe tu nombre de usuario',
+                  Icons.person,
+                ),
+              ),
+              SizedBox(height: 20),
+
+              //Correo
               TextField(
                 controller: controller.emailController,
                 keyboardType: TextInputType.emailAddress,
                 style: GoogleFonts.lato(
-                  fontSize: 20,fontWeight: FontWeight.w400 , color: Colors.white),
-                decoration: inputDecoration('Correo electrónico', Icons.email),
-              ),
-              SizedBox(height: 20),
-
-              // Confirmar correo
-              TextField(
-                controller: controller.confirmEmailController,
-                keyboardType: TextInputType.emailAddress,
-                style: GoogleFonts.lato(
-                  fontSize: 20,fontWeight: FontWeight.w400 , color: Colors.white),
-                decoration: inputDecoration('Confirme su correo electrónico', Icons.email_outlined),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                ),
+                decoration: inputDecoration(
+                  'Escribe tu correo electrónico',
+                  Icons.email_outlined,
+                ),
               ),
               SizedBox(height: 20),
 
               // Contraseña
-              TextField(
-                controller: controller.passwordController,
-                obscureText: true,
-                style: GoogleFonts.lato(
-                  fontSize: 20,fontWeight: FontWeight.w400 , color: Colors.white),
-                decoration: inputDecoration('Contraseña', Icons.lock),
+              Obx(
+                () => TextField(
+                  controller: controller.passwordController,
+                  obscureText: controller.isRegisterPasswordHidden.value,
+                  style: GoogleFonts.lato(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                  ),
+                  decoration: inputDecoration('Contraseña', Icons.lock)
+                      .copyWith(
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            controller.isRegisterPasswordHidden.value
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            controller.isRegisterPasswordHidden.value =
+                                !controller.isRegisterPasswordHidden.value;
+                          },
+                        ),
+                      ),
+                ),
               ),
               SizedBox(height: 20),
 
               // Confirmar contraseña
-              TextField(
-                controller: controller.confirmPasswordController,
-                obscureText: true,
-                style: GoogleFonts.lato(
-                  fontSize: 20,fontWeight: FontWeight.w400 , color: Colors.white),
-                decoration: inputDecoration('Confirme su contraseña', Icons.lock_outline),
+              Obx(
+                () => TextField(
+                  controller: controller.confirmPasswordController,
+                  obscureText: controller.isConfirmPasswordHidden.value,
+                  style: GoogleFonts.lato(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                  ),
+                  decoration:
+                      inputDecoration(
+                        'Confirme su contraseña',
+                        Icons.lock_outline,
+                      ).copyWith(
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            controller.isConfirmPasswordHidden.value
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            controller.isConfirmPasswordHidden.value =
+                                !controller.isConfirmPasswordHidden.value;
+                          },
+                        ),
+                      ),
+                ),
               ),
 
               SizedBox(height: 40),
-              Obx(() => ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 30, 117, 35),
-                  padding: EdgeInsets.symmetric(vertical: 14),
-                  minimumSize: Size(double.infinity, 48),
-                ),
-                onPressed: controller.isLoading.value ? null : controller.register,
-                child: controller.isLoading.value
-                    ? CircularProgressIndicator(color: Color.fromARGB(255, 57, 158, 62))
-                    : Text(
-                        'Registrarse',
-                        style: GoogleFonts.lato(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+              Obx(
+                () => ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 30, 117, 35),
+                    padding: EdgeInsets.symmetric(vertical: 14),
+                    minimumSize: Size(double.infinity, 48),
+                  ),
+                  onPressed: controller.isLoading.value
+                      ? null
+                      : controller.register,
+                  child: controller.isLoading.value
+                      ? CircularProgressIndicator(
+                          color: Color.fromARGB(255, 57, 158, 62),
+                        )
+                      : Text(
+                          'Registrarse',
+                          style: GoogleFonts.lato(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-              )),
+                ),
+              ),
               SizedBox(height: 15),
               GestureDetector(
                 onTap: () => Get.toNamed(AppRoutes.login),
