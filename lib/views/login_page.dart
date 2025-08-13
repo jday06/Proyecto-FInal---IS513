@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+//import 'package:get_storage/get_storage.dart';
 import 'package:proyecto_final/controllers/auth_controller.dart';
 import 'package:proyecto_final/routes/app_routes.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -93,33 +94,48 @@ class LoginPage extends StatelessWidget {
               ),
 
               SizedBox(height: 20),
-              TextField(
-                controller: controller.passwordController,
-                obscureText: true,
-                style: GoogleFonts.lato(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
-                ),
-                decoration: InputDecoration(
-                  labelText: 'Contraseña',
-                  labelStyle: GoogleFonts.lato(
-                    color: Colors.white54,
+              Obx(
+                () => TextField(
+                  controller: controller.passwordController,
+                  obscureText: controller.isPasswordHidden.value,
+                  style: GoogleFonts.lato(
                     fontSize: 20,
                     fontWeight: FontWeight.w400,
+                    color: Colors.white,
                   ),
-                  prefixIcon: Icon(Icons.lock, color: Colors.white),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: BorderSide(color: Colors.white, width: 1),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: BorderSide(color: Colors.white, width: 1),
+                  decoration: InputDecoration(
+                    labelText: 'Contraseña',
+                    labelStyle: GoogleFonts.lato(
+                      color: Colors.white54,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    prefixIcon: Icon(Icons.lock, color: Colors.white),
+
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        controller.isPasswordHidden.value
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        controller.isPasswordHidden.value =
+                            !controller.isPasswordHidden.value;
+                      },
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide(color: Colors.white, width: 1),
+                    ),
+
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide(color: Colors.white, width: 1),
+                    ),
                   ),
                 ),
               ),
-
               SizedBox(height: 40),
               Obx(
                 () => ElevatedButton(
