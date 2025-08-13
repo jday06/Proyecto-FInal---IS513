@@ -4,11 +4,37 @@ import 'package:proyecto_final/controllers/auth_controller.dart';
 import 'package:proyecto_final/routes/app_routes.dart';
 import 'package:proyecto_final/views/side_menu.dart';
 import 'package:get/get.dart';
+<<<<<<< HEAD
+import 'package:proyecto_final/controllers/canchas_controller.dart';
+import 'package:proyecto_final/models/cancha_model.dart';
+=======
 
 class HomePage extends StatelessWidget {
   final AuthController authController = Get.find<AuthController>();
+>>>>>>> origin
 
+class HomePage extends StatefulWidget {
   HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final AuthController authController = Get.find<AuthController>();
+  final CanchasController canchasController = CanchasController();
+  bool loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _cargarCanchas();
+  }
+
+  void _cargarCanchas() async {
+    await canchasController.cargarCanchas();
+    setState(() => loading = false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +42,13 @@ class HomePage extends StatelessWidget {
     final username = loggedUser?['username'] ?? 'Usuario';
     final initial = username.isNotEmpty ? username[0].toUpperCase() : '?';
     final double screenWidth = MediaQuery.of(context).size.width;
+<<<<<<< HEAD
+    final double buttonSpacing = screenWidth * 0.05;
+    final double buttonSize = (screenWidth - (buttonSpacing * 4)) / 3;
+=======
     final double buttonSpacing = screenWidth * 0.05; // 5% del ancho como separación
     final double buttonSize = (screenWidth - (buttonSpacing * 4)) / 3; // 3 botones + espacios
+>>>>>>> origin
 
     return Scaffold(
       appBar: AppBar(
@@ -31,7 +62,11 @@ class HomePage extends StatelessWidget {
           ),
         ),
         centerTitle: true,
+<<<<<<< HEAD
+        backgroundColor: const Color.fromARGB(255, 6, 124, 12),
+=======
         backgroundColor: Color.fromARGB(255, 6, 124, 12),
+>>>>>>> origin
       ),
       drawer: const SideMenu(),
       body: Center(
@@ -54,15 +89,19 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
 
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Hola $username!"),
+<<<<<<< HEAD
+                      const SizedBox(height: 10),
+=======
                       SizedBox(height: 10),
+>>>>>>> origin
                       Text(
-                        "¿Qué piensas hacer hoy?",
+                        "¿Qué reservamos hoy?",
                         style: GoogleFonts.arima(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -73,58 +112,113 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 40),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: buttonSpacing),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    width: buttonSize,
-                    height: buttonSize,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(shape: const CircleBorder()),
-                      onPressed: () => Get.toNamed(AppRoutes.sports),
-                      child: SizedBox(
-                        width: buttonSize * 0.9,
-                        height: buttonSize * 0.9,
-                        child: Image.asset(
-                          "assets/sports.png",
-                          height: buttonSize * 0.9,
-                        ),
+                  Column(
+                    children: [
+                      _buildCircleButton(
+                        image: "assets/sports.png",
+                        size: buttonSize,
+                        onTap: () => Get.toNamed(AppRoutes.sports),
                       ),
-                    ),
+                      const SizedBox(height: 5),
+                      Text(
+                        "Canchas por deporte",
+                        style: GoogleFonts.arbutus(fontSize: 10),
+                      ),
+                    ],
                   ),
+                  Column(
+                    children: [
+                      _buildCircleButton(
+                        image: "assets/calendar.png",
+                        size: buttonSize,
+                        onTap: () => Get.toNamed(AppRoutes.mycalendar),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        "Mi Calendario",
+                        style: GoogleFonts.arbutus(fontSize: 10),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
 
-                  SizedBox(
-                    width: buttonSize,
-                    height: buttonSize,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(shape: const CircleBorder()),
-                      onPressed: () => Get.toNamed(AppRoutes.location),
-                      child: Image.asset(
-                        "assets/location.png",
-                        height: buttonSize * 0.6,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: buttonSize,
-                    height: buttonSize,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(shape: const CircleBorder()),
-                      onPressed: () => Get.toNamed(AppRoutes.mycalendar),
-                      child: Image.asset(
-                        "assets/calendar.png",
-                        height: buttonSize * 0.9,
-                      ),
+            SizedBox(height: 60),
+
+            Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Solo aqui en SportFinder!",
+                    style: GoogleFonts.arima(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
               ),
             ),
+
+            // 🔹 Slider Horizontal de imágenes
+            loading
+                ? const Center(child: CircularProgressIndicator())
+                : SizedBox(
+                    height: 150,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: canchasController.canchas.length,
+                      itemBuilder: (context, index) {
+                        final cancha = canchasController.canchas[index];
+                        return Container(
+                          width: 200,
+                          margin: const EdgeInsets.symmetric(horizontal: 8),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.network(
+                              cancha.imagen,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Container(
+                                    color: Colors.grey[300],
+                                    child: const Icon(
+                                      Icons.broken_image,
+                                      size: 50,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildCircleButton({
+    required String image,
+    required double size,
+    required VoidCallback onTap,
+  }) {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(shape: const CircleBorder()),
+        onPressed: onTap,
+        child: Image.asset(image, height: size * 0.8),
       ),
     );
   }

@@ -34,11 +34,7 @@ class MyApp extends StatelessWidget {
           children: [
             const AnimatedBackground(),
             if (child != null)
-              Scaffold(
-                backgroundColor:
-                    Colors.transparent,
-                body: child,
-              ),
+              Scaffold(backgroundColor: Colors.transparent, body: child),
           ],
         );
       },
