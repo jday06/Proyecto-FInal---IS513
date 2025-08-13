@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:proyecto_final/controllers/reserva_controller.dart';
-import 'package:proyecto_final/storage/storage_service.dart';
+//import 'package:proyecto_final/storage/storage_service.dart';
 import 'package:http/http.dart' as http;
 
 class ReserveCanchaPage extends StatefulWidget {
@@ -14,7 +13,6 @@ class ReserveCanchaPage extends StatefulWidget {
 }
 
 class _ReserveCanchaPageState extends State<ReserveCanchaPage> {
-  final StorageService _storageService = StorageService();
   final ReservaController _reservaController = Get.put(ReservaController());
 
   late Future<List<Map<String, dynamic>>> _futureCanchas;
@@ -165,8 +163,14 @@ class _ReserveCanchaPageState extends State<ReserveCanchaPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(cancha['cancha'] ?? '',
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Row(
+                    children: [
+                      Icon(icono, color: Colors.green[700], size: 28),
+                      const SizedBox(width: 8),
+                      Text(cancha['cancha'] ?? '',
+                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
                   const SizedBox(height: 8),
                   Text("Horario: ${cancha['hora'] ?? ''}"),
                   Text("Precio: ${_formatPrecio(cancha['precio'])}"),

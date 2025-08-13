@@ -5,10 +5,10 @@ import 'package:proyecto_final/routes/app_routes.dart';
 import 'package:proyecto_final/views/side_menu.dart';
 import 'package:get/get.dart';
 import 'package:proyecto_final/controllers/canchas_controller.dart';
-import 'package:proyecto_final/models/cancha_model.dart';
+//import 'package:proyecto_final/models/cancha_model.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
