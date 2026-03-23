@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:proyecto_final/routes/app_routes.dart';
 import 'package:proyecto_final/storage/storage_service.dart';
 
@@ -9,15 +10,16 @@ class AuthController extends GetxController {
   final confirmEmailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  final storageService = StorageService(); // usamos el almacenamiento local
+  final storageService = StorageService();
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   var isLoading = false.obs;
-  var isPasswordHidden = true.obs; // Para login
-  var isRegisterPasswordHidden = true.obs; // Para register password
-  var isConfirmPasswordHidden = true.obs; // Para register confirm password
+  var isPasswordHidden = true.obs;
+  var isRegisterPasswordHidden = true.obs;
+  var isConfirmPasswordHidden = true.obs;
 
-  void login() {
-    //final username = nameController.text.trim();
+  void login() async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
@@ -31,60 +33,57 @@ class AuthController extends GetxController {
       return;
     }
 
-    final registeredUser = storageService.getRegisteredUser();
-    if (registeredUser == null) {
-      _showError(
-        "No existe ningún usuario registrado. Por favor regístrate primero",
-      );
-      return;
-    }
-
-    if (email != registeredUser['email'] ||
-        password != registeredUser['password']) {
-      _showError(
-        "Correo o contraseña incorrectos. Por favor verifica tus datos",
-      );
-      return;
-    }
-
-    // Login exitoso
     isLoading.value = true;
-    Future.delayed(Duration(seconds: 2), () {
-      isLoading.value = false;
+    try {
+      final userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      final user = userCredential.user;
       storageService.saveLoggedUser({
-        "uid": "12345",
-        "email": email,
-        "username": registeredUser['username'],
+        "uid": user!.uid,
+        "email": user.email,
+        "username": user.displayName ?? email.split('@')[0],
       });
+
       Get.offAllNamed(AppRoutes.home);
-    });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found' || e.code == 'wrong-password' || e.code == 'invalid-credential') {
+        _showError("Correo o contraseña incorrectos");
+      } else if (e.code == 'too-many-requests') {
+        _showError("Demasiados intentos. Intenta más tarde");
+      } else {
+        _showError("Error al iniciar sesión: ${e.message}");
+      }
+    } finally {
+      isLoading.value = false;
+    }
   }
 
-  void logout() {
+  void logout() async {
+    await _auth.signOut();
     storageService.clearLoggedUser();
     Get.offAllNamed(AppRoutes.login);
   }
 
   bool isLoggedIn() {
-    return storageService.getLoggedUser() != null;
+    return _auth.currentUser != null;
   }
 
-  void register() {
+  void register() async {
     final email = emailController.text.trim();
     final username = nameController.text.trim();
     final password = passwordController.text.trim();
     final confirmPassword = confirmPasswordController.text.trim();
 
-    if (email.isEmpty ||
-        username.isEmpty ||
-        password.isEmpty ||
-        confirmPassword.isEmpty) {
+    if (email.isEmpty || username.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
       _showError("Todos los campos son obligatorios");
       return;
     }
 
     if (!GetUtils.isEmail(email)) {
-      _showError("Ingrese un correo valido");
+      _showError("Ingrese un correo válido");
       return;
     }
 
@@ -104,50 +103,38 @@ class AuthController extends GetxController {
     }
 
     isLoading.value = true;
-    Future.delayed(Duration(seconds: 2), () {
-      isLoading.value = false;
+    try {
+      final userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-      // Guardar usuario registrado
-      storageService.saveRegisteredUser({
-        "email": email,
-        "password": password,
-        "username": username,
-      });
+      //Guardamos el nombre de usuario en Firebase
+      await userCredential.user!.updateDisplayName(username);
 
       Get.snackbar(
         "Éxito",
         "Registro exitoso, ahora puedes iniciar sesión",
-        backgroundColor: const Color.fromARGB(
-          255,
-          255,
-          255,
-          255,
-        ).withValues(alpha: 0.65),
-        icon: Icon(
-          Icons.check_circle,
-          color: const Color.fromARGB(255, 0, 173, 9),
-          size: 28,
-        ),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255).withValues(alpha: 0.65),
+        icon: Icon(Icons.check_circle, color: const Color.fromARGB(255, 0, 173, 9), size: 28),
         shouldIconPulse: false,
         duration: Duration(seconds: 2),
-        titleText: Text(
-          "Éxito",
-          style: TextStyle(
-            color: const Color.fromARGB(255, 0, 0, 0),
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        ),
-        messageText: Text(
-          "Registro exitoso, ahora puedes iniciar sesión",
-          style: TextStyle(
-            color: const Color.fromARGB(255, 0, 0, 0),
-            fontSize: 18,
-          ),
-        ),
+        titleText: Text("Éxito", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20)),
+        messageText: Text("Registro exitoso, ahora puedes iniciar sesión", style: TextStyle(color: Colors.black, fontSize: 18)),
       );
+
       Get.offAllNamed(AppRoutes.login);
-    });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        _showError("Este correo ya está registrado");
+      } else if (e.code == 'weak-password') {
+        _showError("La contraseña es muy débil");
+      } else {
+        _showError("Error al registrarse: ${e.message}");
+      }
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   void _showError(String message) {
